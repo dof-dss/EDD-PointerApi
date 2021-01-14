@@ -1,0 +1,8 @@
+---
+applications:
+- name: EDD-PointerApi-sandbox
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 256M
+  services:
+  - PointerSQLService
