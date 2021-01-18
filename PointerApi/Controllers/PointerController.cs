@@ -24,7 +24,21 @@ namespace PointerApi.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<PointerModel>>> GetPointerByPostCode(string postcode)
         {
-            var pointerModel = await _context.Pointer.Where(i => i.Postcode == postcode.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").ToListAsync();
+            var pointerModel = await _context.Pointer.Where(i => i.Postcode == postcode.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
+
+            if (pointerModel.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(pointerModel);
+        }
+
+        [HttpGet("PostCodeSearch/postcode={postcode}&buildingNumber={buildingNumber}")]
+        [Produces("application/json")]
+        public async Task<ActionResult<IEnumerable<PointerModel>>> GetPointerByPostCodeBuildingNumber(string postcode, string buildingNumber)
+        {
+            var pointerModel = await _context.Pointer.Where(i => i.Postcode == postcode.ToUpper() && i.Building_Number == buildingNumber.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
 
             if (pointerModel.Count == 0)
             {
