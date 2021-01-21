@@ -4,6 +4,7 @@ using PointerApi.Data;
 using PointerApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PointerApi.Controllers
@@ -24,7 +25,7 @@ namespace PointerApi.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<PointerModel>>> GetPointerByPostCode(string postcode)
         {
-            var pointerModel = await _context.Pointer.Where(i => i.Postcode == postcode.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
+            var pointerModel = await _context.Pointer.Where(i => i.Postcode == FormatPostCode(postcode) && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
 
             if (pointerModel.Count == 0)
             {
@@ -34,11 +35,33 @@ namespace PointerApi.Controllers
             return Ok(pointerModel);
         }
 
+        private string FormatPostCode(string postcode)
+        {
+            StringBuilder buildPostcode = new StringBuilder(postcode);
+
+            buildPostcode.Replace("-", "");
+            buildPostcode.Replace(" ", "");
+
+            if (buildPostcode.Length == 6 || buildPostcode.Length == 7)
+            {
+                if (buildPostcode.Length == 6)
+                {
+                    buildPostcode.Insert(3, " ");
+                }
+                else
+                {
+                    buildPostcode.Insert(4, " ");
+                }
+            }
+
+            return buildPostcode.ToString().ToUpper();
+        }
+
         [HttpGet("PostCodeSearch/postcode={postcode}&buildingNumber={buildingNumber}")]
         [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<PointerModel>>> GetPointerByPostCodeBuildingNumber(string postcode, string buildingNumber)
         {
-            var pointerModel = await _context.Pointer.Where(i => i.Postcode == postcode.ToUpper() && i.Building_Number == buildingNumber.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
+            var pointerModel = await _context.Pointer.Where(i => i.Postcode == FormatPostCode(postcode) && i.Building_Number == buildingNumber.ToUpper() && i.Building_Status == "BUILT" && i.Address_Status == "APPROVED").OrderBy(i => i.Building_Number.Length).ThenBy(i => i.Building_Number).ToListAsync();
 
             if (pointerModel.Count == 0)
             {

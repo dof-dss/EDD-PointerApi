@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove=".circleci\**" />
+    <Content Remove=".circleci\**" />
+    <EmbeddedResource Remove=".circleci\**" />
+    <None Remove=".circleci\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
@@ -21,10 +28,6 @@
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.5.2" />
     <PackageReference Include="Steeltoe.Common.Hosting" Version="2.4.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include=".circleci\config.yml" />
   </ItemGroup>
 
 
