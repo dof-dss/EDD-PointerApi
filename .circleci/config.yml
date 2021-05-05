@@ -20,6 +20,26 @@ jobs:
           name: "Wait for approval"
           command: echo Wait
 workflows:
+  build-deploy-sandbox:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - main
+      - cloudfoundry/push:
+          filters:
+            branches:
+              only:
+                - main
+          appname: EDD-PointerApi-sandbox
+          requires:
+            - build
+          org: DOF-DSS
+          endpoint: https://api.london.cloud.service.gov.uk
+          space: sandbox
+          context: govuk-paas-sandbox
+          manifest: PointerApi/manifest.yml           
   build-deploy-staging:
     jobs:
       - build:
