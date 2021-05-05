@@ -43,18 +43,31 @@ workflows:
   build-deploy-staging:
     jobs:
       - build:
-          filters:
+          filters: # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
             branches:
               only:
                 - main
+      - hold: 
+          type: approval
+          requires:
+          - build
+          filters: 
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
       - cloudfoundry/push:
+          requires:
+            - hold
           filters:
-            branches:
-              only:
-                - main
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+           # branches:
+           #   only:
+            #    - main
           appname: EDD-PointerApi-staging
-          requires: 
-            - build
+          #requires: 
+           # - build
           org: DOF-DSS
           endpoint: https://api.london.cloud.service.gov.uk
           space: staging
@@ -65,7 +78,7 @@ workflows:
       - build:
           filters:    # selected tags and no branches
             tags:
-              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(beta|prod))?$/
             branches:
               ignore: /.*/
       - hold:
@@ -74,14 +87,14 @@ workflows:
           - build
           filters:    # selected tags and no branches
             tags:
-              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(beta|prod))?$/
       - cloudfoundry/push:
           appname: EDD-PointerApi-production
           requires: 
             - hold
           filters:    # selected tags and no branches
             tags:
-              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(beta|prod))?$/
           org: DOF-DSS
           endpoint: https://api.london.cloud.service.gov.uk
           space: production
