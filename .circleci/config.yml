@@ -47,8 +47,7 @@ workflows:
             tags:
               only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
             branches:
-              only:
-                - main
+              ignore: /.*/
       - hold: 
           type: approval
           requires:
