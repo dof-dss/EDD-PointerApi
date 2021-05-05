@@ -1,12 +1,117 @@
- version: 2.1
+version: 2.1
 
- orbs:
-  win: circleci/windows@2.2.0
+orbs:
+  windows: circleci/windows@2.2.0
+  cloudfoundry: circleci/cloudfoundry@0.1.73
 
- jobs:
-   build:
-     executor: win/default     
-    
-     steps:
-       - checkout
-       - run: dotnet build
+commands:
+  install_cmd:
+    parameters:
+      org:
+        type: string
+        default: "dof-dss"
+      space:
+        type: string
+        default: "sandbox"
+    steps:
+      - run:
+          name: "Install and configure Cloud Foundry CLI"
+          command: |
+            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+            choco install cloudfoundry-cli --version=6.51.0
+            cf -v
+            cf api https://api.london.cloud.service.gov.uk
+            cf auth "$CF_USERNAME" "$CF_PASSWORD"
+            cf target
+            echo "$CF_SPACE" 
+            cf target -o << parameters.org >>  -s << parameters.space >> 
+            
+jobs:
+  build:
+    executor:
+      name: windows/default
+    steps:
+      - checkout
+      - run:
+          name: "Install project dependencies"
+          command: dotnet.exe restore                                 
+
+      - run:
+          name: "Build Application"
+          command: dotnet build
+  deploy:
+    parameters:
+      space:
+        type: string
+      configuration:
+        type: string
+        default: "Sandbox"
+    executor:
+      name: windows/default
+    steps:
+      - install_cmd:
+          org: "dof-dss"
+          space: << parameters.space >>
+      - checkout
+      - run:
+          name: "Install project dependencies"
+          command: dotnet restore
+      - run: 
+          name: "Deploy Probate to GOV UK PaaS"
+          command: |
+            cf push edd-pointerapi-<< parameters.space >> --no-start
+            cf set-env edd-pointerapi-<< parameters.space >> ASPNETCORE_ENVIRONMENT << parameters.configuration >>
+            cf start edd-pointerapi-<< parameters.space >>          
+
+  hold:
+    executor:
+      name: windows/default
+    steps:
+      - run:
+          name: "Wait for approval"
+          command: echo Wait
+workflows:
+  test-and-deploy-sandbox:
+    jobs:
+    #  - test:
+     #     filters:
+       #     branches:
+     #         only:
+      #          - main
+      - deploy:
+          space: "sandbox"
+        #  requires:
+        #    - test
+          filters:
+            branches:
+              only:
+                - main
+          context: govuk-paas-sandbox
+  test-and-deploy-staging:
+    jobs:
+    #  - test:
+     #     filters:    # selected tags and no branches
+     #       tags:
+  #            only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+      #      branches:
+    #          ignore: /.*/
+      - hold:
+          type: approval 
+       #   requires:
+        #   - test
+          filters:    # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+            branches:
+              ignore: /.*/
+      - deploy:
+          space: "staging"
+          configuration: "Staging"
+          requires:
+            - hold
+          filters:    # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+            branches:
+              ignore: /.*/
+          context: govuk-paas-sandbox 
