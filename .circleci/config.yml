@@ -10,6 +10,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Restore project dependencies"
+          command: dotnet restore
+          
+      - run:
           name: "Build Application"
           command: dotnet build
   hold:
@@ -32,7 +36,7 @@ workflows:
             branches:
               only:
                 - main
-          appname: EDD-PointerApi
+          appname: EDD-PointerApi-sandbox
           requires: 
             - build
           org: DOF-DSS
