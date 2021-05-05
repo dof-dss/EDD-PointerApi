@@ -32,7 +32,7 @@ workflows:
             branches:
               only:
                 - main
-          appname: EDD-PointerApi-sandbox
+          appname: EDD-PointerApi
           requires: 
             - build
           org: DOF-DSS
