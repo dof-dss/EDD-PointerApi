@@ -10,6 +10,7 @@ namespace PointerApi.Data
         }
 
         public DbSet<PointerModel> Pointer { get; set; }
+        public DbSet<ConsumingApplication> ConsumingApplication { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
