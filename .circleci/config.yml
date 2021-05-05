@@ -9,7 +9,7 @@ commands:
     parameters:
       org:
         type: string
-        default: "dof-dss"
+        default: "DOF-DSS"
       space:
         type: string
         default: "sandbox"
@@ -50,7 +50,7 @@ jobs:
       name: windows/default
     steps:
       - install_cmd:
-          org: "dof-dss"
+          org: "DOF-DSS"
           space: << parameters.space >>
       - checkout
       - run:
