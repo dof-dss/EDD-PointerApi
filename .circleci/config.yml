@@ -41,8 +41,8 @@ workflows:
             - build
           org: DOF-DSS
           endpoint: https://api.london.cloud.service.gov.uk
-          space: SANDBOX
-          context: govuk-paas-sandbox
+          space: sandbox
+          context: govuk-paas-staging
           manifest: PointerApi/manifest.yml        
   build-deploy-staging:
     jobs:
