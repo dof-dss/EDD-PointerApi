@@ -39,7 +39,7 @@ workflows:
           appname: EDD-PointerApi-sandbox
           requires: 
             - build
-         # org: dof-dss
+           org: DOF-DSS
           endpoint: https://api.london.cloud.service.gov.uk
           space: sandbox
           context: govuk-paas-sandbox
