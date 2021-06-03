@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PointerApi.Data;
 using PointerApi.Models;
@@ -12,6 +13,7 @@ namespace PointerApi.Controllers
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Authorize]
     public class PointerController : ControllerBase
     {
         private readonly PointerContext _context;
