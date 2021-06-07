@@ -1,6 +1,6 @@
 ---
 applications:
-- name: EDD-PointerApi-sandbox
+- name: EDD-PointerApi-staging
   buildpacks:
   - dotnet_core_buildpack
   memory: 256M
