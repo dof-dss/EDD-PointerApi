@@ -43,7 +43,7 @@ workflows:
           endpoint: https://api.london.cloud.service.gov.uk 
           space: SANDBOX
           context: govuk-paas-sandbox
-          manifest: PointerApi/manifest.yml        
+          manifest: manifest.yml        
   build-deploy-staging:
     jobs:
       - build:
@@ -75,7 +75,7 @@ workflows:
           endpoint: https://api.london.cloud.service.gov.uk
           space: staging
           context: govuk-paas-staging
-          manifest: PointerApi/manifest.yml
+          manifest: manifest.yml
   build-deploy-prod:
     jobs:
       - build:
@@ -102,4 +102,4 @@ workflows:
           endpoint: https://api.london.cloud.service.gov.uk
           space: production
           context: govuk-paas-production
-          manifest: PointerApi/manifest.yml
+          manifest: manifest.yml
