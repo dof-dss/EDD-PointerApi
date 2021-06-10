@@ -37,13 +37,13 @@ workflows:
               only:
                 - main
           appname: EDD-PointerApi-sandbox
-          requires: 
+          requires:
             - build
-          org: DOF-DSS 
-          endpoint: https://api.london.cloud.service.gov.uk 
+          org: DOF-DSS
+          endpoint: https://api.london.cloud.service.gov.uk
           space: SANDBOX
           context: govuk-paas-sandbox
-          manifest: manifest.yml        
+          manifest: manifest.yml
   build-deploy-staging:
     jobs:
       - build:
