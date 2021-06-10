@@ -5,7 +5,12 @@ This is a simple unambitious postcode address lookup Api for Northern Ireland ad
 
 e.g. from a consuming application the user adds a postcode
 
-![Uploading lookup.png…]()
+![lookup](https://user-images.githubusercontent.com/66303816/121494861-05f19b80-c9d1-11eb-8656-414decdb57ee.png)
+
+And the api displays the results
+
+![lookupList](https://user-images.githubusercontent.com/66303816/121495064-333e4980-c9d1-11eb-9a69-14120ea3de8e.png)
+
 
 ## Contents of this file
 
