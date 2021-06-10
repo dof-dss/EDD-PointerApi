@@ -48,6 +48,7 @@ This solves having to create a pointer table in every single application and add
 ### How did we do it?
 
 This is a dotnet core application which uses Mysql to store the pointer data, Entity Framework for data access and JWT to authenticate applications to allow them to use the api.
+We have hosted this in the Gov UK PaaS Cloud foundry platform using Circle CI to deploy.
 
 ### Future plans
 
@@ -64,6 +65,28 @@ Restore the nuget package. Then to build run "dotnet build" in command line then
 ### Dataset
 
 You can obtain the dataset which is around one million addresses from OSNI / LPS in csv format and manually input this into the database.
+Once you get the dataset you will need to import the dataset into MySql. I did this using the below mysql script (you may need to alter the date fields):
+
+```
+
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/ALLNI_20201222_F.csv'
+INTO TABLE pointer.pointer
+CHARACTER SET cp1250
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+
+IGNORE 1 ROWS;
+
+```
+
+You will also want to create an index to make it super fast:
+
+```
+
+CREATE INDEX PostcodeIndex
+ON pointer.pointer (Postcode(8));
+
+```
 
 ### Usage from consuming application
 
