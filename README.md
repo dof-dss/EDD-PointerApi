@@ -2,7 +2,7 @@
 
 | Builds  | Branch | Status 
 | ------------- | -----  |--------
-| Circle CI  | main   | TBA
+| Circle CI  | main   | [![CircleCI](https://circleci.com/gh/dof-dss/EDD-PointerApi/tree/main.svg?style=svg&circle-token=ee183d3b060895f03ad7976452ede418db21e489)](https://circleci.com/gh/dof-dss/EDD-PointerApi/tree/main)
 | SonarCloud  | main   | TBA
 
 ## Description
