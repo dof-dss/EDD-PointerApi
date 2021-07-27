@@ -1,5 +1,10 @@
 # EDD-PointerApi
 
+| Builds  | Branch | Status 
+| ------------- | -----  |--------
+| Circle CI  | main   | TBA
+| SonarCloud  | main   | TBA
+
 ## Description
 This is a simple unambitious postcode address lookup Api for Northern Ireland addresses.
 
