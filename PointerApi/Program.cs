@@ -5,7 +5,7 @@ using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 namespace PointerApi
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -15,7 +15,7 @@ namespace PointerApi
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .UseCloudHosting()
-            .AddCloudFoundry()
+            .AddCloudFoundryConfiguration()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

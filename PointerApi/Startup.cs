@@ -143,7 +143,6 @@ namespace PointerApi
             app.UseAuthorization();
 
             app.UseCors(builder => builder
-               .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader());
 
