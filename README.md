@@ -3,7 +3,7 @@
 | Builds  | Branch | Status 
 | ------------- | -----  |--------
 | Circle CI  | main   | [![CircleCI](https://circleci.com/gh/dof-dss/EDD-PointerApi/tree/main.svg?style=svg&circle-token=ee183d3b060895f03ad7976452ede418db21e489)](https://circleci.com/gh/dof-dss/EDD-PointerApi/tree/main)
-| SonarCloud  | main   | TBA
+| SonarCloud  | main   | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=dof-dss_EDD-PointerApi&metric=alert_status)](https://sonarcloud.io/dashboard?id=dof-dss_EDD-PointerApi)
 
 ## Description
 This is a simple unambitious postcode address lookup Api for Northern Ireland addresses.
