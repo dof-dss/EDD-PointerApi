@@ -56,8 +56,7 @@ namespace PointerApi
                     Contact = new OpenApiContact
                     {
                         Name = "Michael Stevenson",
-                        Email = "Michael.Stevenson@finance-ni.gov.uk",
-                        Url = new Uri("https://www.micstevenson.co.uk/"),
+                        Email = "Michael.Stevenson@finance-ni.gov.uk"
                     }
                 });
 
